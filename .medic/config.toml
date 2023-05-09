@@ -1,0 +1,28 @@
+[doctor]
+checks = [
+  { check = "homebrew" },
+]
+
+[audit]
+checks = [
+  { name = "audit", shell = "bin/dev/audit", verbose = true },
+]
+
+[update]
+steps = [
+  { step = "git", command = "pull" },
+  { doctor = {} },
+]
+
+[test]
+checks = []
+
+[shipit]
+steps = [
+  { audit = {} },
+  { update = {} },
+  { test = {} },
+  # { name = "Release", shell = "bin/dev/release", verbose = true },
+  { step = "git", command = "push" },
+  { step = "github", command = "link-to-actions", verbose = true },
+]
