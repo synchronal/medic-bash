@@ -7,7 +7,7 @@ confirm() {
   description=$1
 
   cecho -n --green "\n▸" --cyan "${description}?" --yellow "[y/N]"
-  read CONFIRMATION
+  read -r CONFIRMATION
   CONFIRMATION=$(echo "${CONFIRMATION}" | tr '[:upper:]' '[:lower:]')
 
   if [[ ! "${CONFIRMATION}" =~ "y" ]]; then

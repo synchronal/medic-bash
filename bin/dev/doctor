@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+source "share/doctor.bash"
+
+check "Homebrew bundle is up to date" \
+  "brew bundle check" \
+  "brew bundle install"

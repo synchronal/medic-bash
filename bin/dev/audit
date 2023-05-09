@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+source "share/doctor.bash"
+
+step "Shell lints" \
+  "shellcheck -e SC1091,SC2181 share/*"

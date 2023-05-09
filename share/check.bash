@@ -1,12 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 localcopy() {
   content="$1"
 
   if command -v pbcopy >/dev/null; then
-    echo -n ${content} | pbcopy
+    echo -n "${content}" | pbcopy
   elif command -v xclip >/dev/null; then
-    echo "$content" | xclip -selection clipboard
+    echo "${content}" | xclip -selection clipboard
   else
     cecho -n --yellow "You're missing a suitable copy command; here's the content I tried to copy:"
     cecho -n --yellow "$content"
@@ -23,7 +23,7 @@ check() {
   shell_flags=$-
   set +e
 
-  eval "${command} > /tmp/medic.out 2>&1"
+  output=$(eval "${command}" 2>&1)
   command_exit_status=$?
 
   if [[ $shell_flags =~ e ]]
@@ -33,10 +33,14 @@ check() {
 
 
   if [ $command_exit_status -eq 0 ]; then
+    cecho --bold-green "OK"
     return 0
   else
-    cat /tmp/medic.out >&2
-    echo "${remedy}"
+    echo "${output}" >&2
+    cecho --cyan "Possible remedy: " \
+      --yellow "${remedy}" \
+      --green " (it's in the clipboard)"
+    localcopy "$remedy"
     exit 1
   fi
 }

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+source "share/doctor.bash"
+
+step "Pull new changes" "git pull"
