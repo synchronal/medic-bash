@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+source "share/doctor.bash"
+
+mkdir -p tmp/release
+
+step "Package tarfile" \
+  "tar -czf tmp/release/medic-bash.tar.gz share/*"
+
+step "Generate shasum" \
+  "(cd tmp/release && sha256sum medic-bash.tar.gz > medic-bash.tar.gz.sha256sum)"
+
+cecho --bright-green "\nChecksums:"
+cat tmp/release/*.sha256sum
+
