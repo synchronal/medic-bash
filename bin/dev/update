@@ -3,3 +3,5 @@
 source "share/doctor.bash"
 
 step "Pull new changes" "git pull"
+
+bin/dev/doctor
