@@ -5,7 +5,7 @@ checks = [
 
 [audit]
 checks = [
-  { name = "audit", shell = "bin/dev/audit", verbose = true },
+  { name = "audit", shell = "shellcheck -e SC1091,SC2181 share/*" },
 ]
 
 [update]
