@@ -1,6 +1,31 @@
-# Medic Bash
+# medic-bash
 
-Bash helpers for writing medic scripts in bash.
+Bash helpers for writing medic scripts in bash. See [medic](https://github.com/synchronal/medic-rs)
+for more info.
+
+## Installation
+
+```shell
+brew install synchronal/tap/medic-bash
+```
+
+## Usage
+
+This project provides a set of bash files that can be sourced in order to make scripts
+to verify project setup and automate workflow.
+
+```shell
+#!/usr/bin/env bash
+
+source $(brew --prefix)/share/medic-bash/doctor.bash
+source $(brew --prefix)/share/medic-bash/confirm.bash
+
+check "Direnv file exists" "test -e .envrc" "touch .envrc"
+step "Run database migrations" "mix ecto.migrate"
+confirm "Continue"
+
+cecho -n --green "Output" --yellow "text" --cyan "to" --bright-bold-red "user"
+```
 
 ### cecho
 
@@ -40,3 +65,32 @@ step "Description" \
 
 Examples: git pull; install <mix|cargo|npm> dependencies; run database migrations.
 
+
+## Usage with `medic`
+
+Medic allows for shell actions to be performed. These may be shell scripts that internally use
+`medic-bash`. 
+
+```toml
+[shipit]
+
+steps = [
+  { audit = {} },
+  { update = {} },
+  { test = {} },
+  ## shell step using medic-bash
+  { name = "Release", shell = "bin/dev/release", verbose = true },
+  ##
+  { step = "git", command = "push" },
+  { step = "github", command = "link-to-actions", verbose = true },
+]
+```
+
+```shell
+#!/usr/bin/env bash
+
+source $(brew --prefix)/share/medic-bash/doctor.bash
+
+step "compile for release" "..."
+step "create tar file" "..."
+```
